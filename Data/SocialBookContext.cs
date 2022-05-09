@@ -18,5 +18,17 @@ namespace SocialBook.Data
         public DbSet<SocialBook.Models.Profile> Profile { get; set; }
 
         public DbSet<SocialBook.Models.Post> Post { get; set; }
+
+        public DbSet<SocialBook.Models.Comment> Comment { get; set; }
+
+        public DbSet<SocialBook.Models.Reaction> Reaction { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Profile>().ToTable("Profile");
+            modelBuilder.Entity<Post>().ToTable("Post");
+            modelBuilder.Entity<Reaction>().ToTable("Reaction");
+            modelBuilder.Entity<Comment>().ToTable("Comment");
+        }
     }
 }

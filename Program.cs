@@ -1,10 +1,35 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SocialBook.Data;
+using SocialBook.Repositories;
+using SocialBook.Repositories.Interfaces;
+using SocialBook.Service;
+using SocialBook.Services.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<SocialBookContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SocialBookContext") ?? throw new InvalidOperationException("Connection string 'SocialBookContext' not found.")));
+
+
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+builder.Services.Add(new ServiceDescriptor(typeof(ILog), new ConsoleLogger()));
+
+builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
+
+builder.Services.AddScoped<IPostRepository, PostRepository>();
+builder.Services.AddScoped<IPostService, PostService>();
+
+
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+
+builder.Services.AddScoped<IReactionRepository, ReactionRepository>();
+builder.Services.AddScoped<IReactionService, ReactionService>();
+
+builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+
+var connectionString = builder.Configuration.GetConnectionString("SocialBookContext"); builder.Services.AddDbContext<SocialBook.Data.SocialBookContext>(options =>
+     options.UseSqlServer(connectionString));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -25,6 +50,11 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.MapAreaControllerRoute(
+    name: "MyAreaServices",
+    areaName: "Services",
+    pattern: "Services/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",

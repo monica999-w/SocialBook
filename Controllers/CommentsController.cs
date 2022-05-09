@@ -8,36 +8,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SocialBook.Data;
 using SocialBook.Models;
+using SocialBook.Repositories;
+using SocialBook.Repositories.Interfaces;
+using SocialBook.Services.Interfaces;
 
 namespace SocialBook
 {
-    public class ProfilesController : Controller
+    public class CommentsController : Controller
     {
-        private readonly SocialBookContext _context;
+        private readonly ICommentRepository _commentsRepository;
 
-        public ProfilesController(SocialBookContext context)
+        public CommentsController(ICommentRepository commentsRepository)
         {
-            _context = context;
+            _commentsRepository = commentsRepository;
         }
 
-        // GET: Profiles
-        public async Task<IActionResult> Index(string searchString)
+        // GET: Comments
+        public async Task<IActionResult> Index()
         {
-
-            var profiles = from m in _context.Profile
-                         select m;
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                profiles = profiles.Where(s => s.LastName!.Contains(searchString));
-            }
-
-
-
-            return View(await _context.Profile.ToListAsync());
+            return View(_commentsRepository.GetList());
         }
 
-        // GET: Profiles/Details/5
+        // GET: Comments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,42 +37,39 @@ namespace SocialBook
                 return NotFound();
             }
 
-            var profile = await _context.Profile
-         .Include(s => s.Posts)
-         .AsNoTracking()
-         .FirstOrDefaultAsync(m => m.ProfileId == id);
+            var comment = await _commentsRepository.GetById((int)id);
 
-            if (profile == null)
+
+            if (comment == null)
             {
                 return NotFound();
             }
 
-            return View(profile);
+            return View(comment);
         }
 
-        // GET: Profiles/Create
+        // GET: Comments/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Profiles/Create
+        // POST: Comments/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProfileId,LastName,FirstMidName,EnrollmentDate")] Profile profile)
+        public async Task<IActionResult> Create([Bind("Id,Content,Status,CreatedAt,ModifiedAt")] Comment comment)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(profile);
-                await _context.SaveChangesAsync();
+                _commentsRepository.Save(comment);
                 return RedirectToAction(nameof(Index));
             }
-            return View(profile);
+            return View(comment);
         }
 
-        // GET: Profiles/Edit/5
+        // GET: Comments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -88,22 +77,22 @@ namespace SocialBook
                 return NotFound();
             }
 
-            var profile = await _context.Profile.FindAsync(id);
-            if (profile == null)
+            var comment = await _commentsRepository.GetById((int)id);
+            if (comment == null)
             {
                 return NotFound();
             }
-            return View(profile);
+            return View(comment);
         }
 
-        // POST: Profiles/Edit/5
+        // POST: Comments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProfileId,LastName,FirstMidName,EnrollmentDate")] Profile profile)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Content,Status,CreatedAt,ModifiedAt")] Comment comment)
         {
-            if (id != profile.ProfileId)
+            if (id != comment.Id)
             {
                 return NotFound();
             }
@@ -112,12 +101,11 @@ namespace SocialBook
             {
                 try
                 {
-                    _context.Update(profile);
-                    await _context.SaveChangesAsync();
+                    _commentsRepository.Update(comment);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProfileExists(profile.ProfileId))
+                    if (!_commentsRepository.Exists(comment.Id))
                     {
                         return NotFound();
                     }
@@ -128,10 +116,10 @@ namespace SocialBook
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(profile);
+            return View(comment);
         }
 
-        // GET: Profiles/Delete/5
+        // GET: Comments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -139,30 +127,29 @@ namespace SocialBook
                 return NotFound();
             }
 
-            var profile = await _context.Profile
-                .FirstOrDefaultAsync(m => m.ProfileId == id);
-            if (profile == null)
+            var comment = await _commentsRepository.GetById((int)id);
+            if (comment == null)
             {
                 return NotFound();
             }
 
-            return View(profile);
+            return View(comment);
         }
 
-        // POST: Profiles/Delete/5
+        // POST: Comments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var profile = await _context.Profile.FindAsync(id);
-            _context.Profile.Remove(profile);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+            var comment = await _commentsRepository.GetById(id);
+            if (comment == null)
+            {
+                return NotFound();
+            }
 
-        private bool ProfileExists(int id)
-        {
-            return _context.Profile.Any(e => e.ProfileId == id);
+            _commentsRepository.Delete(comment);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

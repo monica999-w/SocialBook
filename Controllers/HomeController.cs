@@ -28,5 +28,11 @@ namespace SocialBook.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is HomeController controller &&
+                   EqualityComparer<ILogger<HomeController>>.Default.Equals(_logger, controller._logger);
+        }
     }
 }

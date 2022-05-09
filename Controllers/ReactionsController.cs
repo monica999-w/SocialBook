@@ -11,27 +11,22 @@ using SocialBook.Models;
 
 namespace SocialBook
 {
-    public class PostsController : Controller
+    public class ReactionsController : Controller
     {
         private readonly SocialBookContext _context;
-        private readonly IWebHostEnvironment _webHostEnvironment;
-        public PostsController(SocialBookContext context,
-             IWebHostEnvironment webHostEnvironment)
+
+        public ReactionsController(SocialBookContext context)
         {
             _context = context;
-            _webHostEnvironment = webHostEnvironment;
         }
 
-      
-        // GET: Posts
-        public async Task<IActionResult> Index( )
+        // GET: Reactions
+        public async Task<IActionResult> Index()
         {
-            
-
-            return View(await _context.Post.ToListAsync());
+            return View(await _context.Reaction.ToListAsync());
         }
 
-        // GET: Posts/Details/5
+        // GET: Reactions/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -39,55 +34,39 @@ namespace SocialBook
                 return NotFound();
             }
 
-            var post = await _context.Post
-         .Include(s => s.Comments)
-         .Include(e => e.Reactions)
-         .AsNoTracking()
-         .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (post == null)
+            var reaction = await _context.Reaction
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (reaction == null)
             {
                 return NotFound();
             }
 
-            return View(post);
+            return View(reaction);
         }
 
-        // GET: Posts/Create
+        // GET: Reactions/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Posts/Create
+        // POST: Reactions/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ImageFile,Content,Status,CreatedAt,ModifiedAt")] Post post)
+        public async Task<IActionResult> Create([Bind("Id,Type,Status,CreatedAt,ModifiedAt")] Reaction reaction)
         {
-             if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-            string wwwRootPath = _webHostEnvironment.WebRootPath;
-            string fileName = Path.GetFileNameWithoutExtension(post.ImageFile.FileName);
-            string extension = Path.GetExtension(post.ImageFile.FileName);
-            post.ImageName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-            string path = Path.Combine(wwwRootPath + "/image", fileName);
-            using (var fileStream = new FileStream(path, FileMode.Create))
-            {
-                await post.ImageFile.CopyToAsync(fileStream);
+                _context.Add(reaction);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-
-
-            _context.Add(post);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return View(reaction);
         }
 
-            return View(post);
-        }
-
-        // GET: Posts/Edit/5
+        // GET: Reactions/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -95,22 +74,22 @@ namespace SocialBook
                 return NotFound();
             }
 
-            var post = await _context.Post.FindAsync(id);
-            if (post == null)
+            var reaction = await _context.Reaction.FindAsync(id);
+            if (reaction == null)
             {
                 return NotFound();
             }
-            return View(post);
+            return View(reaction);
         }
 
-        // POST: Posts/Edit/5
+        // POST: Reactions/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ImageName,Content,Status,CreatedAt,ModifiedAt")] Post post)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Status,CreatedAt,ModifiedAt")] Reaction reaction)
         {
-            if (id != post.Id)
+            if (id != reaction.Id)
             {
                 return NotFound();
             }
@@ -119,12 +98,12 @@ namespace SocialBook
             {
                 try
                 {
-                    _context.Update(post);
+                    _context.Update(reaction);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PostExists(post.Id))
+                    if (!ReactionExists(reaction.Id))
                     {
                         return NotFound();
                     }
@@ -135,10 +114,10 @@ namespace SocialBook
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(post);
+            return View(reaction);
         }
 
-        // GET: Posts/Delete/5
+        // GET: Reactions/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -146,30 +125,30 @@ namespace SocialBook
                 return NotFound();
             }
 
-            var post = await _context.Post
+            var reaction = await _context.Reaction
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (post == null)
+            if (reaction == null)
             {
                 return NotFound();
             }
 
-            return View(post);
+            return View(reaction);
         }
 
-        // POST: Posts/Delete/5
+        // POST: Reactions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var post = await _context.Post.FindAsync(id);
-            _context.Post.Remove(post);
+            var reaction = await _context.Reaction.FindAsync(id);
+            _context.Reaction.Remove(reaction);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PostExists(int id)
+        private bool ReactionExists(int id)
         {
-            return _context.Post.Any(e => e.Id == id);
+            return _context.Reaction.Any(e => e.Id == id);
         }
     }
 }

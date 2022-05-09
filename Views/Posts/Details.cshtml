@@ -46,6 +46,55 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ModifiedAt)
         </dd>
+
+        <dt class="col-sm-2">
+    @Html.DisplayNameFor(model => model.Comments)
+</dt>
+<dd class="col-sm-10">
+    <table class="table">
+        <tr>
+            <th>Content</th>
+            <th>Status</th>
+             
+        </tr>
+        @foreach (var item in Model.Comments)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Content)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+            </tr>
+        }
+    </table>
+</dd>
+
+<dt class="col-sm-2">
+    @Html.DisplayNameFor(model => model.Reactions)
+</dt>
+<dd class="col-sm-10">
+    <table class="table">
+        <tr>
+             <th>Reaction Type</th>
+            <th> Reaction Status</th>
+            
+        </tr>
+        @foreach (var item in Model.Reactions)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+            </tr>
+        }
+    </table>
+</dd>
+
     </dl>
 </div>
 <div>

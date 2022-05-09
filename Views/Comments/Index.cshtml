@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SocialBook.Models.Post>
+﻿@model IEnumerable<SocialBook.Models.Comment>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,13 +9,9 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageName)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Content)
             </th>
@@ -34,9 +30,6 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageName)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Content)
             </td>

@@ -17,5 +17,9 @@ namespace SocialBook.Models
         public string? Content { get; set; }
         public Profile? CreatedBy { get; set; }
         public PostStatus Status { get; set; }
+
+        public virtual ICollection<Comment>? Comments { get; set; }
+        public virtual ICollection<Reaction>? Reactions { get; set; }
+
     }
 }
