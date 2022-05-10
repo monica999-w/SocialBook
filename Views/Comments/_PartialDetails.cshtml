@@ -1,0 +1,10 @@
+@model Comment
+
+
+<b>@Model.CreatedBy.LastName: </b> @Model.Content
+<ul>
+    @foreach (var child in Model.SubComments!)
+        {
+            await Html.RenderPartialAsync("_PartialDetails", child);
+        }
+</ul>

@@ -9,7 +9,6 @@ using SocialBook.Services.Interfaces;
 var builder = WebApplication.CreateBuilder(args);
 
 
-
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.Add(new ServiceDescriptor(typeof(ILog), new ConsoleLogger()));
@@ -25,14 +24,17 @@ builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
 builder.Services.AddScoped<IReactionRepository, ReactionRepository>();
 builder.Services.AddScoped<IReactionService, ReactionService>();
+builder.Services.AddScoped<PostImageProcessorService, PostImageProcessorService>();
 
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
 var connectionString = builder.Configuration.GetConnectionString("SocialBookContext"); builder.Services.AddDbContext<SocialBook.Data.SocialBookContext>(options =>
-     options.UseSqlServer(connectionString));
+     options.UseSqlite(connectionString));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddCoreAdmin();
 
 var app = builder.Build();
 
@@ -51,13 +53,10 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapAreaControllerRoute(
-    name: "MyAreaServices",
-    areaName: "Services",
-    pattern: "Services/{controller=Home}/{action=Index}/{id?}");
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.UseCoreAdminCustomUrl("admin");
 
 app.Run();
