@@ -2,7 +2,6 @@
 {
     public class Profile
     {
-
         public int ProfileId { get; set; }
         public string? LastName { get; set; }
         public string? FirstMidName { get; set; }
