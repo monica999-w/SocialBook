@@ -23,20 +23,18 @@ namespace SocialBook
         // GET: Profiles
         public async Task<IActionResult> Index(string searchString)
         {
-
+           
             var profiles = from m in _context.Profile
                          select m;
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                profiles = profiles.Where(s => s.LastName!.Contains(searchString));
+                profiles = profiles.Where(s => s.FirstMidName!.Contains(searchString));
             }
-
-
-
-            return View(await _context.Profile.ToListAsync());
+            
+            return View(profiles);
         }
-
+       
         // GET: Profiles/Details/5
         public async Task<IActionResult> Details(int? id)
         {

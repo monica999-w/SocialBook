@@ -8,22 +8,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SocialBook.Data;
 using SocialBook.Models;
+using SocialBook.Repositories.Interfaces;
 
 namespace SocialBook
 {
     public class ReactionsController : Controller
     {
-        private readonly SocialBookContext _context;
+        private readonly IReactionRepository _reactionsRepository;
 
-        public ReactionsController(SocialBookContext context)
+        public ReactionsController(IReactionRepository reactionsRepository)
         {
-            _context = context;
+            _reactionsRepository = reactionsRepository;
         }
 
         // GET: Reactions
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Reaction.ToListAsync());
+            return View(_reactionsRepository.GetList());
         }
 
         // GET: Reactions/Details/5
@@ -34,8 +35,7 @@ namespace SocialBook
                 return NotFound();
             }
 
-            var reaction = await _context.Reaction
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var reaction = await _reactionsRepository.GetById((int)id);
             if (reaction == null)
             {
                 return NotFound();
@@ -59,8 +59,7 @@ namespace SocialBook
         {
             if (ModelState.IsValid)
             {
-                _context.Add(reaction);
-                await _context.SaveChangesAsync();
+                _reactionsRepository.Save(reaction);
                 return RedirectToAction(nameof(Index));
             }
             return View(reaction);
@@ -74,7 +73,7 @@ namespace SocialBook
                 return NotFound();
             }
 
-            var reaction = await _context.Reaction.FindAsync(id);
+            var reaction = await _reactionsRepository.GetById((int)id);
             if (reaction == null)
             {
                 return NotFound();
@@ -98,12 +97,12 @@ namespace SocialBook
             {
                 try
                 {
-                    _context.Update(reaction);
-                    await _context.SaveChangesAsync();
+                    _reactionsRepository.Update(reaction);
+                    
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ReactionExists(reaction.Id))
+                    if (!_reactionsRepository.Exists(reaction.Id))
                     {
                         return NotFound();
                     }
@@ -125,8 +124,7 @@ namespace SocialBook
                 return NotFound();
             }
 
-            var reaction = await _context.Reaction
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var reaction = await _reactionsRepository.GetById((int)id);
             if (reaction == null)
             {
                 return NotFound();
@@ -140,15 +138,14 @@ namespace SocialBook
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var reaction = await _context.Reaction.FindAsync(id);
-            _context.Reaction.Remove(reaction);
-            await _context.SaveChangesAsync();
+            var reaction = await _reactionsRepository.GetById((int)id);
+            if (reaction == null)
+            {
+                return NotFound();
+            }
+            _reactionsRepository.Delete(reaction);
             return RedirectToAction(nameof(Index));
         }
-
-        private bool ReactionExists(int id)
-        {
-            return _context.Reaction.Any(e => e.Id == id);
-        }
+        
     }
 }
