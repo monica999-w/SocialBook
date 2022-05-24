@@ -3,12 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SocialBook.Models;
 
 namespace SocialBook.Data
 {
-    public class SocialBookContext : DbContext
+    public class SocialBookContext : IdentityDbContext<IdentityUser>
     {
         public SocialBookContext (DbContextOptions<SocialBookContext> options)
             : base(options)
@@ -29,6 +31,7 @@ namespace SocialBook.Data
             modelBuilder.Entity<Post>().ToTable("Post");
             modelBuilder.Entity<Reaction>().ToTable("Reaction");
             modelBuilder.Entity<Comment>().ToTable("Comment");
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
