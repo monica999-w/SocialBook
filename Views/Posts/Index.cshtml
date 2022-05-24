@@ -1,10 +1,80 @@
 ﻿@model IEnumerable<SocialBook.Models.Post>
-
+@using Microsoft.AspNetCore.Identity
 @{
     ViewData["Title"] = "Index";
 }
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
-<h1>Index</h1>
+<!DOCTYPE html>
+<html lang ="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"]  SocialBook</title>
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+         <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/SocialBook.style.css" asp-append-version="true" />
+    </head>
+</html>
+<body>
+
+    <div class="container">
+        <!-------left-sidebar---------->
+        <div class="left-sidebar">
+             <div class="imp-links">
+                 <a href="#"><img src="images/news.png">Latest News</a>
+                 <a href="#"><img src="images/friends.png">Friends</a>
+                 <a href="#"><img src="images/group.png">Group</a>
+                 <a href="#"><img src="images/marketplace.png">Market</a>
+                 <a href="#"><img src="images/watch.png">Watch</a>
+                  <a asp-controller="Posts" asp-action="Post"> ️❗️View and edit your posts ️️❗️</a>
+                 <a href="#">See More</a>
+                </div>
+                <div class="shortcut-links">
+                    <p>Your Shortcuts </p>
+                    <a href="#"><img src="images/shortcut-1.png">Web Developers</a>
+                    <a href="#"><img src="images/shortcut-2.png">Web Design course</a>
+                    <a href="#"><img src="images/shortcut-3.png">Full Stack Development</a>
+                    <a href="#"><img src="images/shortcut-4.png">Website Experts</a>
+                </div>
+        </div>
+
+          <!-------main-content---------->
+        <div class="main-content">
+            
+            <div class="write-post-container">
+                
+                <div class="post-input-container">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <li class="nav-item">
+                            <textarea id="manage" class="nav-link text-black" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"> What's on your mind, @UserManager.GetUserName(User)? </textarea>
+                        </li>
+                        
+                    }
+                    <div class="add-post-links">
+                        <a href="#"><img src="images/live-video.png">Live Video</a>
+                        <a asp-controller="Posts" asp-action="Create"><img src="images/photo.png">Photo/Video</a>
+                        <a href="#"><img src="images/feeling.png">Feling/Activity</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+ <script src="script.js"></script>   
+
+</body>
+
+
+
+
+@*<h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -57,4 +127,4 @@
         </tr>
 }
     </tbody>
-</table>
+</table>*@
