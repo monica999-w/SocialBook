@@ -33,5 +33,7 @@ namespace SocialBook.Data
             modelBuilder.Entity<Comment>().ToTable("Comment");
             base.OnModelCreating(modelBuilder);
         }
+
+        public DbSet<SocialBook.Models.Event>? Event { get; set; }
     }
 }
