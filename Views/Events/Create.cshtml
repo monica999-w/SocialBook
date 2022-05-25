@@ -1,0 +1,43 @@
+﻿@model SocialBook.Models.Event
+
+@{
+    ViewData["Title"] = "Create";
+}
+<!DOCTYPE html>
+<html lang ="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"]  SocialBook</title>
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+         <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/SocialBook.style.css" asp-append-version="true" />
+    </head>
+</html>
+
+<h4><b>Creati un nou anunt</b> </h4>
+<label asp-for="Content" ></label>
+<hr />
+
+<div class="left-sidebar">
+    
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+                <input asp-for="Content"  class="event-caset1" />
+                <span asp-validation-for="Content" class="text-danger"></span>
+                &ensp;
+                <div class="form-group">
+                   <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+        </form>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

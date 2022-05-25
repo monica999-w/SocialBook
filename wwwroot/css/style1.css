@@ -1,0 +1,67 @@
+  /*--------------PageStart-----------------*/
+  *{
+    margin:0;
+    padding: 0;
+    font-family: 'poppins',sans-serif;
+}
+
+body{
+    background:#ffffff;
+   
+}  
+
+  nav{
+      width: 338px;
+    display: block;
+    align-items: center;
+    justify-content: space-between;
+    background: url("images/background1.jpg") ;
+    padding: 190px 39%;
+      position: relative;
+      left: 0px;
+      top:0px
+}
+.logo-start{
+    width: 300px;
+    margin-right: 145px;
+    align-items: center;
+    position: relative;
+    top :-60px;
+    left:0px;
+
+}
+  .start input[type="button"] {
+      width: 260px;
+      height: 35px;
+      position: relative;
+      left: -180px;
+      top:100px;
+      margin-top: 20px;
+      border-color: #626262;
+      background-color: green;
+      color: white;
+      font-size: 18px;
+      border-radius: 30px;
+  }
+
+  .button1 input[type="button"] {
+      width: 260px;
+      height: 35px;
+      border-color: #626262;
+      position: relative;
+      left: 220px;
+      top: 45px;
+      margin-top: 20px;
+      cursor: pointer;
+      background-color: transparent;
+      color: white;
+      font-size: 18px;
+  }
+
+  .start p{
+      text-align: center;
+      padding-top: 20px;
+      font-size: 13px;
+      font-family: 'poppins', sans-serif;
+      color: #9a9a9a;
+  }
