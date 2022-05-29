@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +22,7 @@ namespace SocialBook
             _context = context;
         }
 
+        [Authorize(Roles = "Administrator")]
         // GET: Events
         public async Task<IActionResult> Index()
         {
@@ -29,7 +32,7 @@ namespace SocialBook
         }
 
         
-
+        [Authorize(Roles = "Administrator")]
         // GET: Events/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -47,13 +50,14 @@ namespace SocialBook
 
             return View(@event);
         }
-
+[Authorize(Roles = "Administrator")]
         // GET: Events/Create
         public IActionResult Create()
         {
             return View();
         }
 
+        
         // POST: Events/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -69,7 +73,8 @@ namespace SocialBook
             }
             return View(@event);
         }
-
+        
+        [Authorize(Roles = "Administrator")]
         // GET: Events/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -85,7 +90,7 @@ namespace SocialBook
             }
             return View(@event);
         }
-
+        [Authorize(Roles = "Administrator")]
         // POST: Events/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -120,7 +125,7 @@ namespace SocialBook
             }
             return View(@event);
         }
-
+        [Authorize(Roles = "Administrator")]
         // GET: Events/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -138,7 +143,7 @@ namespace SocialBook
 
             return View(@event);
         }
-
+        [Authorize(Roles = "Administrator")]
         // POST: Events/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -161,6 +166,13 @@ namespace SocialBook
         private bool EventExists(int id)
         {
           return (_context.Event?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        public async Task<IActionResult> Event()
+        {
+            return _context.Event != null ? 
+                View(await _context.Event.ToListAsync()) :
+                Problem("Entity set 'SocialBookContext.Event'  is null.");
         }
     }
 }

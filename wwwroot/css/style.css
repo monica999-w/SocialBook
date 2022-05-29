@@ -597,6 +597,10 @@ padding: 20px;
     color: #626262;
 
 }
+.end_admin {
+     display: none;
+ }
+
 
 .cover-img{
     width: 100%;

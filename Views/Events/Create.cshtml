@@ -8,7 +8,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>@ViewData["Title"]  SocialBook</title>
+        
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
          <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
@@ -16,7 +16,7 @@
     </head>
 </html>
 
-<h4><b>Creati un nou anunt</b> </h4>
+<h4><b>Create a new ad</b> </h4>
 <label asp-for="Content" ></label>
 <hr />
 
@@ -37,6 +37,10 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+
+
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
