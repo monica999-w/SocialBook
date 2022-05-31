@@ -22,7 +22,7 @@ namespace SocialBook
             _context = context;
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator,User")]
         // GET: Events
         public async Task<IActionResult> Index()
         {

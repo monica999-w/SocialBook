@@ -5,7 +5,7 @@
 }
 
 
-<h1>Index</h1>
+
 
 <p>
     @Html.ActionLink("Create New","Create")
@@ -18,39 +18,44 @@
     }
  </p>   
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstMidName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EnrollmentDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstMidName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EnrollmentDate)
-            </td>
-            <td>
+
+@*<div class="card-deck">
+    @foreach (var profile in Model)
+    {
+        <div class="card m-3">
+            <div class="card-header">
+                <h3>@profile.FirstMidName</h3>
+                <h3>@profile.LastName</h3>
+            </div>
+            <img class="card-img-top" src="~/images/profile-pic.jpg"/>
+            <div class="card-footer text-center">
                 <a asp-action="Edit" asp-route-id="@item.ProfileId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ProfileId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.ProfileId">Delete</a>
-            </td>
-        </tr>
+            </div>
+        </div>
+    }
+    
+</div>*@
+<div class="flex-container">
+<table class="friends-box" >
+    @foreach (var item in Model) {
+   
+    <div class="card m-3" flex-wrap:wrap>
+        <div class="card-header" align="center" font-weight="bold">
+           
+            @Html.DisplayFor(modelItem => item.LastName)
+            @Html.DisplayFor(modelItem => item.FirstMidName)
+            
+            </div>
+        <img class="card-img-top" src="~/images/profilee.jpg"/>
+        <div class="card-footer text-center">
+            <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.ProfileId">Edit</a> |
+            <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.ProfileId">Details</a> |
+            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ProfileId">Delete</a>
+        </div>
+    </div>
+    
 }
-    </tbody>
 </table>
+</div>

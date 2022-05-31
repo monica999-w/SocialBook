@@ -21,6 +21,19 @@ body{
       left: 0px;
       top:0px
 }
+  
+  .start{
+      width: 338px;
+      display: block;
+      align-items: center;
+      justify-content: space-between;
+      background: url("images/background1.jpg") ;
+      padding: 190px 39%;
+      position: relative;
+      left: 0px;
+      top:0px
+      
+  }
 .logo-start{
     width: 300px;
     margin-right: 145px;

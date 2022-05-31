@@ -164,8 +164,6 @@ namespace SocialBook
             _postRepository.Delete(post);
             return RedirectToAction(nameof(Index));
         }
-
-
-        public async Task<IActionResult> Post() => View(await _postRepository.GetList());
+        
     }
 }

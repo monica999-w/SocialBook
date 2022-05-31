@@ -8,7 +8,7 @@
 :root{
 --body-color: #ffffff;
 --nav-color:#1876f2;
---bg-color: #7398ff;
+--bg-color: #ffffff;
 }
 
 .dark-theme{
@@ -745,14 +745,23 @@ padding: 20px;
     cursor: pointer;
 }
 
+.details-post{
+    align-content: center;
+}
 
 .friends-box{
     display: grid;
     grid-template-columns: repeat(3,auto);
     grid-gap:10px;
     margin-top: 15px;
+  
 
 }
+ .flex-container {
+     display: flex;
+     flex-wrap: wrap;
+     background-color: #ffffff;
+ }
 
 .friends-box div img{
     width: 100%;

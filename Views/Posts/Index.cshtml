@@ -25,12 +25,12 @@
         <div class="left-sidebar">
              <div class="imp-links">
                  <a href="#"><img src="images/news.png">Latest News</a>
-                 <a href="#"><img src="images/friends.png">Friends</a>
+                 <a asp-controller="Profiles" asp-action="Index"><img src="images/friends.png">Friends</a>
                  <a href="#"><img src="images/group.png">Group</a>
                  <a href="#"><img src="images/marketplace.png">Market</a>
                  <a href="#"><img src="images/watch.png">Watch</a>
-                 <a asp-controller="Posts" asp-action="Post"> ️❗️View and edit your posts ️️❗️</a>
-                  <a asp-controller="Events" asp-action="Event"> ️❗️See new ads about the site ️️❗️</a>
+                 
+                  <a asp-controller="Events" asp-action="Index"> ️❗️See new ads about the site ️️❗️</a>
                  <a href="#">See More</a>
                 </div>
                 <div class="shortcut-links">
@@ -46,14 +46,14 @@
         <div class="main-content">
             
             <div class="write-post-container">
-                
+
                 <div class="post-input-container">
                     @if (SignInManager.IsSignedIn(User))
                     {
                         <li class="nav-item">
                             <textarea id="manage" class="nav-link text-black" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"> What's on your mind, @UserManager.GetUserName(User)? </textarea>
                         </li>
-                        
+
                     }
                     <div class="add-post-links">
                         <a href="#"><img src="images/live-video.png">Live Video</a>
@@ -61,14 +61,32 @@
                         <a href="#"><img src="images/feeling.png">Feling/Activity</a>
                     </div>
                 </div>
+                
             </div>
-        </div>
+            
+                    
+            
+            <div class="post-container">
+               
+                <div class="flex-container">
+                    <table class="friends-box">
+                        @foreach (var item in Model)
+                        {
+                            <div class="card m-3" flex-wrap:wrap>
+                                <img src="@("~/image/" + item.ImageName)" asp-append-version="true" width="450px" height="350px"/>
+                               
+                                <div class="card-footer text-center">
+                                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                </div>
+                            </div>
+                        }
+                    </table>
+                </div>
+            </div>
 
-
+</div>
 
     </div>
-
- <script src="script.js"></script>   
 
 </body>
 

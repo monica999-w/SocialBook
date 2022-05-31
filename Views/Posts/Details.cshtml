@@ -6,88 +6,61 @@
 
 <h1>Details</h1>
 
-<div>
-    <h4>Post</h4>
+<div class="details-post">
+   
     <hr/>
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageName)
+    <table class="friends-box">
+        <div class="card-header">
+        <dt >
+            @Html.DisplayNameFor(model => model.Content): @Html.DisplayFor(model => model.Content)
+        </dt>
+        <dt >
+            @Html.DisplayNameFor(model => model.Status): @Html.DisplayFor(model => model.Status)
+        </dt>
+        <dt >
+            @Html.DisplayNameFor(model => model.CreatedAt): @Html.DisplayFor(model => model.CreatedAt)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ImageName)
+            <img src="@("~/image/" + Model.ImageName)" asp-append-version="true" width="350px" height="350px"/>
         </dd>
-        <dt class="col-sm-2">
-            Uploaded Image
-        </dt>
-        <dd class="col-sm-10">
-            <img src="@("~/image/" + Model.ImageName)" asp-append-version="true" width="150px" height="150px"/>
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Content)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Content)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ModifiedAt)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ModifiedAt)
-        </dd>
+</div>
+        <div class="card-header" align="center" font-weight="bold">
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Comments)
-        </dt>
-        <dd class="col-sm-10">
-            <ul>
-                @foreach (var item in Model.Comments)
-                {
-                    <li>
-                        <b>
-                            @Html.DisplayFor(modelItem => item.CreatedBy.FirstMidName) @Html.DisplayFor(modelItem => item.CreatedBy.LastName):
-                        </b> @Html.DisplayFor(modelItem => item.Content)
+            <dd class="col-sm-10">
+                <ul>
+                    @foreach (var item in Model.Comments)
+                    {
+                        <li>
+                            <b>
+                                @Html.DisplayFor(modelItem => item.CreatedBy.FirstMidName) @Html.DisplayFor(modelItem => item.CreatedBy.LastName):
+                            </b> @Html.DisplayFor(modelItem => item.Content)
+                           
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </li>
+                    }
+                </ul>
+            </dd>
 
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </li>
-                }
-            </ul>
-        </dd>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Reactions)
-        </dt>
-        <dd class="col-sm-10">
-            <ul>
-                @foreach (var item in Model.Reactions)
-                {
-                    <li>
-                        <b>
-                            @Html.DisplayFor(modelItem => item.CreatedBy.FirstMidName) @Html.DisplayFor(modelItem => item.CreatedBy.LastName):
-                        </b> 
-                        gave a <b>@Html.DisplayFor(modelItem => item.Type)</b> on this at
-                        @Html.DisplayFor(modelItem => item.CreatedAt)
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        @* TODO make the links work for the current reaction not the main model  *@
-                    </li>
-                }
-            </ul>
-        </dd>
+            <dd class="col-sm-10">
+                <ul>
+                    @foreach (var item in Model.Reactions)
+                    {
+                        <li>
+                            <b>
+                                @Html.DisplayFor(modelItem => item.CreatedBy.FirstMidName) @Html.DisplayFor(modelItem => item.CreatedBy.LastName):
+                            </b>
+                            gave a <b>@Html.DisplayFor(modelItem => item.Type)</b> on this at
+                            @Html.DisplayFor(modelItem => item.CreatedAt)
 
-    </dl>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            @* TODO make the links work for the current reaction not the main model  *@
+                        </li>
+                    }
+                </ul>
+            </dd>
+        </div>
+    </table>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |

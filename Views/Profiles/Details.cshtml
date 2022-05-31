@@ -31,31 +31,30 @@
 
         
         <dt class="col-sm-2">
-    @Html.DisplayNameFor(model => model.Posts)
-</dt>
-<dd class="col-sm-10">
-    <table class="table">
-        <tr>
-            <th>ImageName </th>
-            <th>Status</th>
-             <th>Content</th>
-        </tr>
-        @foreach (var item in Model.Posts)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ImageName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                 <td>
-                    @Html.DisplayFor(modelItem => item.Content)
-                </td>
-            </tr>
-        }
-    </table>
-</dd>
+            @Html.DisplayNameFor(model => model.Posts)
+        </dt> 
+        <div class="card-header">
+        <table class="friends-box">
+
+            @foreach (var item in Model.Posts)
+                {
+                    <tr>
+                        <dd class="col-sm-10">
+                            <img src="@("~/image/" + item.ImageName)" asp-append-version="true" width="350px" height="350px"/>
+                        </dd>
+                       
+                        <dt>
+                            @Html.DisplayNameFor(modelItem => item.Status) : @Html.DisplayFor(modelItem => item.Status)
+                        </dt>
+                        
+                        <dt>
+                           @Html.DisplayNameFor(modelItem => item.Content) : @Html.DisplayFor(modelItem => item.Content)
+                        </dt>
+                    </tr>
+                }
+            </table>
+            </div>
+           
     </dl>
 </div>
 <div>
